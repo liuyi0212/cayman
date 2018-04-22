@@ -1,0 +1,12 @@
+/bin
+logs/
+reports/Finance*.*
+.*
+!.gitignore
+build
+application-my.properties
+*.iml
+*.ipr
+*.iws
+nohup.out
+out

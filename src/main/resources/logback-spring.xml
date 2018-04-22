@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder的默认实现类是ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+        <!-- %logger输出完整类名 %file仅输出类名 -->
+        <encoder>
+            <!-- <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern> -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 从低到高ALL、 TRACE 、 DEBUG 、INFO 、WARN 、ERROR 、OFF  参考ch.qos.logback.classic.Level类   -->
+    <logger name="com.medishare.cayman" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <root level="error" additivity="false">
+    </root>
+
+    <appender name="CaymanLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/cayman.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/finance.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%class{16} %line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <logger name="CaymanLog" level="INFO" additivity="false">
+        <appender-ref ref="CaymanLogAppender"/>
+    </logger>
+</configuration>
