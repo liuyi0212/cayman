@@ -1,27 +1,9 @@
 package com.medishare.cayman.view;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.config.WebConfig;
 import com.medishare.cayman.constant.OAuth2UriConstant;
+import com.medishare.cayman.service.ArticleService;
 import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.utils.MessageUtil;
 import com.medishare.cayman.utils.SignUtil;
@@ -33,7 +15,20 @@ import com.medishare.cayman.wechat.conf.ConfigurationContext;
 import com.medishare.cayman.wechat.entity.Response;
 import com.medishare.cayman.wechat.entity.ResponseMedia;
 import com.medishare.cayman.wechat.entity.ResponseOAuth2AccessToken;
-import com.medishare.cayman.wechat.entity.ResponseUser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class WechatController extends BaseController{
@@ -46,7 +41,7 @@ public class WechatController extends BaseController{
 	
 	@Autowired
 	MsgDispatcher msgDispatcher;
-	
+
 	/**
 	 * 配置微信后台
 	 * @param signature
@@ -112,6 +107,7 @@ public class WechatController extends BaseController{
 	 */
 	@RequestMapping(value = "/oauth2", method = RequestMethod.GET)
 	public ModelAndView wechatOauth2(HttpServletResponse response, HttpServletRequest request,@RequestParam("code")String code,@RequestParam("state")String state) throws IOException {
+		System.out.println("进入了方法");
 		Wechat wechat = WechatFactory.getInstance();
 		// 获取Code&换取Access Token
 		ResponseOAuth2AccessToken accessToken = wechat.getOAuth2AccessToken(code);
@@ -122,21 +118,30 @@ public class WechatController extends BaseController{
 		}
 		log.info("oath2 status:"+state);
 		if(accessToken!=null){
+			accessToken.getOpenId();
+			accessToken.getUnionId();
+
+
 			Cookie cookie = new Cookie("OPENID", accessToken.getOpenId());
 			cookie.setPath("/");
 			response.addCookie(cookie);
-			ResponseUser user = wechat.getUserInfo(accessToken.getOpenId(), "zh_CN ");
-			if(user == null || user.getUser() == null || user.getUser().getHeadImgURL() == null){
-				log.info(JSonUtils.toJsonString(user));
-				user= wechat.getOAuth2UserInfo(accessToken.getAccessToken(), accessToken.getOpenId(), "zh_CN ");				
-			}
-			
-			String headImgUrl = user.getUser().getHeadImgURL();
-			
+
+
+//			ResponseUser user = wechat.getUserInfo(accessToken.getOpenId(), "zh_CN ");
+
+
+//			if(user == null || user.getUser() == null || user.getUser().getHeadImgURL() == null){
+//				log.info(JSonUtils.toJsonString(user));
+//				user= wechat.getOAuth2UserInfo(accessToken.getAccessToken(), accessToken.getOpenId(), "zh_CN ");
+//			}
+//
+//			String headImgUrl = user.getUser().getHeadImgURL();
+//
 			
 //			Patient patient = patientService.findPatientByOpenId(accessToken.getOpenId());
 //			if(patient==null){
-				return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BIND+"?redirect_uri="+URLEncoder.encode(state, "utf-8")+"&headImgUrl="+headImgUrl);
+			System.out.println(webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
+				return new ModelAndView("redirect:"+webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
 //			}else{
 //				if(accessToken!=null){
 					//免密码登录
@@ -181,13 +186,31 @@ public class WechatController extends BaseController{
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.POST)
-	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
+	public String getBatchgetMaterial(HttpServletResponse response, HttpServletRequest request) throws IOException {
+//	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
 		JSONRet ret = new JSONRet();
+		List<Map<String, Object>> list = new ArrayList<>();
+
 		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("type","news");
+			map.put("offset","0");
+			map.put("count","20");
+
 			Wechat wechat = WechatFactory.getInstance();
-			System.out.println(JSonUtils.toJsonString(material));
-			ResponseMedia resp = wechat.batchgetMaterial(material);
-			System.out.println(resp.getMedia());
+			System.out.println(JSonUtils.toJsonString(map));
+            com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
+
+            List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
+            lista.forEach(l->{
+                Map<String, Object> m2 = (Map<String, Object>) l.get("content");
+                List<Map<String, Object>> l2 = (List<Map<String, Object>>) m2.get("news_item");
+                System.out.println(JSonUtils.toJsonString(l2));
+            });
+
+
+
+			ret.setData(lista);
 		} catch (Exception e) {
 			log.error("error",e);
 			return "error";
@@ -229,7 +252,8 @@ public class WechatController extends BaseController{
 		}
 		String oauth2URL = "";
 		try {
-			oauth2URL = wechat.generateOAuth2URL(webConfig.getWebHttp()+"/wx/oauth2", "snsapi_base", URLEncoder.encode(url.replace(webConfig.getWebHttp(), ""),"utf-8"));
+			oauth2URL = wechat.generateOAuth2URL(webConfig.getWebHttp()+"/oauth2", "snsapi_base", URLEncoder.encode(url.replace(webConfig.getWebHttp(), ""),"utf-8"));
+			System.out.println(JSonUtils.toJsonString(oauth2URL));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

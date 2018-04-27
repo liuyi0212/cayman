@@ -1,5 +1,8 @@
 package com.medishare.cayman.wechat.client;
 
+import com.alibaba.fastjson.JSON;
+import com.medishare.cayman.utils.HttpHelper;
+import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.wechat.api.Wechat;
 import com.medishare.cayman.wechat.conf.Configuration;
 import com.medishare.cayman.wechat.entity.*;
@@ -14,6 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 final class WechatImpl implements Wechat, Serializable {
@@ -256,7 +260,7 @@ final class WechatImpl implements Wechat, Serializable {
         };
         return factory.createResponse(post(url, params), file);
     }
-    
+
     // 获取临时素材字节流
     @Override public ResponseBytes getMediaBytes(String mediaId) throws IOException {
         String url = conf.getMediaBaseURL() + "/cgi-bin/media/get"
@@ -310,17 +314,17 @@ final class WechatImpl implements Wechat, Serializable {
         };
         return factory.createResponseMedia(post(url, params));
     }
-    
+
     // 获取素材列表
     @Override public ResponseMedia batchgetMaterial(Map<String, Object> material) throws IOException {
-    	String url = conf.getRestBaseURL() + "/cgi-bin/material/batchget_material"
-    			+ "?access_token=" + accessToken.getCredential();
+        String url = conf.getRestBaseURL() + "/cgi-bin/material/batchget_material"
+                + "?access_token=" + accessToken.getCredential();
     	HttpParameter[] params = new HttpParameter[] {
     			new HttpParameter(new JSONObject(material))
     	};
-    	return factory.createResponseMedia(post(url, params));
+        return factory.createResponseMedia(post(url, params));
     }
-    
+
 //    // 获取素材总数
 //    @Override public ResponseMedia getMaterialCount(Map<String, Object> material) throws IOException {
 //    	String url = conf.getRestBaseURL() + "/cgi-bin/material/get_materialcount"
@@ -546,7 +550,7 @@ final class WechatImpl implements Wechat, Serializable {
         };
         factory.createQRCode(get(url, params), file);
     }
-    
+
     // 通过ticket换取二维码bytes
     @Override public byte [] getBytesQRCode(String ticket) throws IOException {
         String url = conf.getMPBaseURL() + "/cgi-bin/showqrcode";
@@ -567,12 +571,32 @@ final class WechatImpl implements Wechat, Serializable {
     }
 
     //获取jsAPI ticket
-	@Override
-	public ResponseTicket getJsApiTicket() throws IOException {
-	        String url = conf.getRestBaseURL() + "/cgi-bin/ticket/getticket"
-	                + "?access_token=" + accessToken.getCredential()+"&type=jsapi";
-	        HttpParameter[] params = new HttpParameter[]{
-	        };
-	        return factory.createResponseTicket(get(url, params));
-	}
+    @Override
+    public ResponseTicket getJsApiTicket() throws IOException {
+        String url = conf.getRestBaseURL() + "/cgi-bin/ticket/getticket"
+                + "?access_token=" + accessToken.getCredential()+"&type=jsapi";
+        HttpParameter[] params = new HttpParameter[]{
+        };
+        return factory.createResponseTicket(get(url, params));
+    }
+
+    @Override
+    public com.alibaba.fastjson.JSONObject batchgetMaterialDoPost() {
+        String url = conf.getRestBaseURL() + "/cgi-bin/material/batchget_material"
+                + "?access_token=" + accessToken.getCredential();
+        Map<String,String> paramMap=new HashMap<String,String>();
+        paramMap.put("type","news");
+        paramMap.put("offset","0");
+        paramMap.put("count","22");
+        Object data= JSON.toJSON(paramMap);
+
+        System.out.println(JSonUtils.toJsonString(data));
+        com.alibaba.fastjson.JSONObject jsonObject = null;
+        try {
+            jsonObject = HttpHelper.doPost(url, data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 }

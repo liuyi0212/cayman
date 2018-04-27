@@ -49,7 +49,7 @@ public class ArticleController extends BaseController{
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/submit/article/", method = RequestMethod.POST)
+    @RequestMapping(value = "/submit/article/", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     public String insertArticle(@RequestBody ArticleDQ article){
         JSONRet ret= new JSONRet();
         articleService.saveArticle(article);

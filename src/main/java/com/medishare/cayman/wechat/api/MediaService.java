@@ -28,11 +28,14 @@ public interface MediaService {
     ResponseMedia getMaterial(Map<String, Object> material) throws IOException;
 
     // 获取素材列表
-    ResponseMedia batchgetMaterial(Map<String, Object> material) throws IOException;
+    ResponseMedia batchgetMaterial(Map<String, Object> material) throws Exception;
 
     // 删除永久素材
     Response deleteMaterial(Map<String, Object> material) throws IOException;
 
     // 获取临时素材字节流
-	ResponseBytes getMediaBytes(String mediaId) throws IOException;
+    ResponseBytes getMediaBytes(String mediaId) throws IOException;
+
+    com.alibaba.fastjson.JSONObject batchgetMaterialDoPost();
+
 }

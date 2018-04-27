@@ -100,6 +100,7 @@ dependencies {
     compile('org.mongodb.morphia:morphia:1.0.1')
     compile('org.apache.commons:commons-lang3:3.7')
 //    compile 'org.springframework.boot:spring-boot-devtools:1.4.3.RELEASE' //热部署
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.47'
 
 
 

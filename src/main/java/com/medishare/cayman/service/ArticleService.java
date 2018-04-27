@@ -1,5 +1,6 @@
 package com.medishare.cayman.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.domain.ArticleDQ;
 
@@ -27,4 +28,5 @@ public interface ArticleService {
     void articleRead(String id);
 
     void articleClick(String id);
+
 }
