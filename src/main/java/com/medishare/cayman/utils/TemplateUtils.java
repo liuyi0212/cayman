@@ -30,13 +30,13 @@ public class TemplateUtils {
 	 */
 	@Value("${order.pay}")
 	String ORDER_PAY_TEMPLATE_ID;
-	
+
 	/**
 	 * 订单变更消息模板id
 	 */
 	@Value("${order.change}")
 	String ORDER_CHANGE_TEMPLATE_ID;
-	
+
 	/**
 	 * 订单取消消息模板id
 	 */
@@ -50,7 +50,7 @@ public class TemplateUtils {
 	@Autowired
 	WebConfig webConfig;
 	public static String CONFIRM_ORDER = "/swift/index.html#/confirmOrder?abstractid=";
-	
+
 	private static Logger log = LoggerFactory.getLogger(TemplateUtils.class);
 	/**
 	 * 微信发送订单提交模板消息
@@ -93,7 +93,7 @@ public class TemplateUtils {
 		};
 		return sendTemplateMessage(template);
 	}
-	
+
 	/**
 	 * 微信发送订单支付模板消息
 	 * @param openId 微信openId
@@ -135,7 +135,7 @@ public class TemplateUtils {
 		};
 		return sendTemplateMessage(template);
 	}
-	
+
 	/**
 	 * 微信发送订单变更模板消息
 	 * @param openId 微信openId
@@ -183,7 +183,7 @@ public class TemplateUtils {
 		};
 		return sendTemplateMessage(template);
 	}
-	
+
 	/**
 	 * 微信发送订单取消模板消息
 	 * @param openId 微信openId
@@ -292,7 +292,7 @@ public class TemplateUtils {
 		} catch (IOException e) {
 			log.error("sendTemplateMessage error",e);
 		}
-		if (response!= null && response.getResponse()!= null && response.getResponse().getErrCode()!= null 
+		if (response!= null && response.getResponse()!= null && response.getResponse().getErrCode()!= null
 				&& response.getResponse().getErrCode() == 0) {
 			return true;
 		} else {
@@ -300,7 +300,7 @@ public class TemplateUtils {
 		}
 	}
 	public  void sendChatMessage(String openid,String title,String description,String url,String picurl){
-		
+
 		Map<String,Object> articlesMap = new HashMap<String, Object>();
 		articlesMap.put("title", title);
 		articlesMap.put("description", description);
@@ -318,12 +318,12 @@ public class TemplateUtils {
 				put("msgtype", "news");
 			}
 		};
-		
+
 		sendMsg(msg, "chat");
 	}
 	public  void sendChatMessage2(String openid,List<Map<String,Object>> articles){
 		if(StringUtils.isEmpty(openid) || articles == null || articles.isEmpty()){
-			return; 
+			return;
 		}
 		Map<String, Object> msg = new HashMap<String, Object>() {
 			{

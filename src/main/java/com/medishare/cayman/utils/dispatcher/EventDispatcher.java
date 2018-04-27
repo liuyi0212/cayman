@@ -19,9 +19,9 @@ import com.medishare.cayman.utils.TemplateUtils;
  */
 @Component
 public class EventDispatcher {
-	
+
 	protected Logger log = LoggerFactory.getLogger(getClass());
-	
+
 	@Autowired
 	WebConfig webConfig;
 	@Autowired
@@ -31,9 +31,9 @@ public class EventDispatcher {
 //	EventProducer eventProducer;
 
 	public String processEvent(Map<String, String> map) {
-		
+
 		String openid = map.get("FromUserName"); //用户 openid
-		
+
 		if (map.get("Event").equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) { //关注事件
 			templateUtils.sendTextMessage(openid,"你好，欢迎关注米喜医家！社区家庭医生与居民沟通的第一服务平台，为全家提供健康管理");
 			if(map.get("EventKey")!=null){
@@ -90,12 +90,12 @@ public class EventDispatcher {
 		}
 
 		if (map.get("Event").equals(MessageUtil.EVENT_TYPE_VIEW)) { //自定义菜单 View 事件
-			
+
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * 发送医生信息消息给用户
 	 * @param map
@@ -108,7 +108,7 @@ public class EventDispatcher {
 //			doctorId = eventKey.substring(eventKey.lastIndexOf("_")+1);
 //		}
 //		Doctor doctor = doctorService.findDoctor(doctorId, false);
-//		
+//
 //		String description = ""; //医生医院+擅长
 //		//医生二维码
 //		if(doctor==null){
@@ -116,7 +116,7 @@ public class EventDispatcher {
 //		}else{
 //			Patient patient = patientService.findPatientByOpenId(openid);
 //			/**
-//			 * 
+//			 *
 //			 */
 //			ActEvent we = new ActEvent();
 //			we.doctorId = doctorId;
@@ -140,7 +140,7 @@ public class EventDispatcher {
 //					wef.eventType=ActEventTypes.EVENT_FOLLOW;
 //					log.info("send ActEvent"+ JSonUtils.toJsonString(wef));
 //					eventProducer.send(wef);
-//				}				
+//				}
 //				we.patientId = patient.getId();
 //			}else{
 //				mogo.saveQrDoctorRelation(doctorId, openid);
@@ -162,15 +162,15 @@ public class EventDispatcher {
 //				sprcialtyStr = sprcialtyStrB.substring(0, sprcialtyStrB.length()-1);
 //				description = description + " | " + sprcialtyStr;
 //			}
-//			
+//
 //		}
-//		
+//
 //		if(DoctorTypeUtils.titleType.get(doctor.getTitleType()) !=  null){
 //			description = DoctorTypeUtils.titleType.get(doctor.getTitleType()) + "|" + description;
 //		}
-//		
+//
 //		templateUtils.sendChatMessage(openid, String.format("%s个人诊室", doctor.getRealname()), description, "/matrix/doctor.html#/home?&doctorId="+doctor.getId(), "http://upyun.thedoc.cn/img/f0325892-38aa-40e1-8d61-0a70ad78a80b.png");
-//	
+//
 	}
 
 }
