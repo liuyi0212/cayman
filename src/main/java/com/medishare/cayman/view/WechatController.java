@@ -107,7 +107,12 @@ public class WechatController extends BaseController{
 	 */
 	@RequestMapping(value = "/oauth2", method = RequestMethod.GET)
 	public ModelAndView wechatOauth2(HttpServletResponse response, HttpServletRequest request,@RequestParam("code")String code,@RequestParam("state")String state) throws IOException {
-		System.out.println("进入了方法");
+		System.out.println("system进入了方法oauth2");
+		System.out.println("system进入了方法oauth2");
+		System.out.println("system进入了方法oauth2");
+		log.info("log进入了方法oauth2");
+		log.info("log进入了方法oauth2");
+		log.info("log进入了方法oauth2");
 		Wechat wechat = WechatFactory.getInstance();
 		// 获取Code&换取Access Token
 		ResponseOAuth2AccessToken accessToken = wechat.getOAuth2AccessToken(code);
@@ -141,7 +146,9 @@ public class WechatController extends BaseController{
 //			Patient patient = patientService.findPatientByOpenId(accessToken.getOpenId());
 //			if(patient==null){
 			System.out.println(webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
-				return new ModelAndView("redirect:"+webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
+			log.info(webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
+
+			return new ModelAndView("redirect:"+webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
 //			}else{
 //				if(accessToken!=null){
 					//免密码登录
@@ -185,32 +192,41 @@ public class WechatController extends BaseController{
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.POST)
+	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.GET)
 	public String getBatchgetMaterial(HttpServletResponse response, HttpServletRequest request) throws IOException {
 //	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
 		JSONRet ret = new JSONRet();
 		List<Map<String, Object>> list = new ArrayList<>();
 
 		try {
-			Map<String, Object> map = new HashMap<>();
-			map.put("type","news");
-			map.put("offset","0");
-			map.put("count","20");
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("type","news");
+//			map.put("offset","0");
+//			map.put("count","20");
+//
+//			Wechat wechat = WechatFactory.getInstance();
+//			System.out.println(JSonUtils.toJsonString(map));
+//            com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
+//
+//            List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
+//            lista.forEach(l->{
+//                Map<String, Object> m2 = (Map<String, Object>) l.get("content");
+//                List<Map<String, Object>> l2 = (List<Map<String, Object>>) m2.get("news_item");
+//                System.out.println(JSonUtils.toJsonString(l2));
+//            });
+//			ret.setData(lista);
+			Map<String, Object> map01 = new HashMap<>();
+			map01.put("thumb_url","http://mmbiz.qpic.cn/mmbiz_jpg/EIvvvz1ymI6mia3BDJc4w1JKx4iahBAsmgTLtb1zIQCguRicU5hHZ2vhtFyHIQWaRPFu5YL7R3sZ4A7a20mQtbqfQ/0?wx_fmt=jpeg");
+			map01.put("title","测试数据title01");
+			map01.put("url","http://mp.weixin.qq.com/s?__biz=MzI5NzM4MTY2MA==&mid=100000011&idx=4&sn=782860b715d9eac9a5efd5aef733b35d&chksm=6cb4bb785bc3326e63b94a3e48f9d94b8b3593c1d60c6cf96652b523ba736179c58fe9c34cc1#rd");
 
-			Wechat wechat = WechatFactory.getInstance();
-			System.out.println(JSonUtils.toJsonString(map));
-            com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
-
-            List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
-            lista.forEach(l->{
-                Map<String, Object> m2 = (Map<String, Object>) l.get("content");
-                List<Map<String, Object>> l2 = (List<Map<String, Object>>) m2.get("news_item");
-                System.out.println(JSonUtils.toJsonString(l2));
-            });
+			Map<String, Object> map02 = new HashMap<>();
+			map02.put("thumb_url","http://mmbiz.qpic.cn/mmbiz_jpg/EIvvvz1ymI6mia3BDJc4w1JKx4iahBAsmgTLtb1zIQCguRicU5hHZ2vhtFyHIQWaRPFu5YL7R3sZ4A7a20mQtbqfQ/0?wx_fmt=jpeg");
+			map02.put("title","测试数据title02");
+			map02.put("url","http://mp.weixin.qq.com/s?__biz=MzI5NzM4MTY2MA==&mid=100000011&idx=4&sn=782860b715d9eac9a5efd5aef733b35d&chksm=6cb4bb785bc3326e63b94a3e48f9d94b8b3593c1d60c6cf96652b523ba736179c58fe9c34cc1#rd");
+			ret.setData(list);
 
 
-
-			ret.setData(lista);
 		} catch (Exception e) {
 			log.error("error",e);
 			return "error";
@@ -246,6 +262,14 @@ public class WechatController extends BaseController{
 	@ResponseBody
 	@RequestMapping(value = "/wechat/redirect/oauth2/", method = RequestMethod.GET)
 	public ModelAndView getOauth2Url(@RequestParam(value="url",required=false) String url ,HttpServletRequest request,HttpServletResponse response){
+		System.out.println("system into /wechat/redirect/oauth2/");
+		System.out.println("system into /wechat/redirect/oauth2/");
+		System.out.println("system into /wechat/redirect/oauth2/");
+		log.info("log into /wechat/redirect/oauth2/");
+		log.info("log into /wechat/redirect/oauth2/");
+		log.info("log into /wechat/redirect/oauth2/");
+
+
 		Wechat wechat = WechatFactory.getInstance();
 		if(url==null || url.trim().equals("")){
 			url =  webConfig.getWebHttp()+OAuth2UriConstant.BIND;
@@ -253,7 +277,9 @@ public class WechatController extends BaseController{
 		String oauth2URL = "";
 		try {
 			oauth2URL = wechat.generateOAuth2URL(webConfig.getWebHttp()+"/oauth2", "snsapi_base", URLEncoder.encode(url.replace(webConfig.getWebHttp(), ""),"utf-8"));
-			System.out.println(JSonUtils.toJsonString(oauth2URL));
+			log.info(oauth2URL);
+			log.info(oauth2URL);
+			log.info(oauth2URL);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
