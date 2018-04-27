@@ -72,8 +72,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${versionSpringBoot}")
     compile("org.springframework.boot:spring-boot-starter-logging:${versionSpringBoot}")
     compile("org.springframework.boot:spring-boot-starter-jetty:1.2.7.RELEASE")
-    compile("org.springframework.session:spring-session-data-redis:${versionSpringSession}")
-    compile("org.springframework.session:spring-session:${versionSpringSession}")
+//    compile("org.springframework.session:spring-session-data-redis:${versionSpringSession}")
+//    compile("org.springframework.session:spring-session:${versionSpringSession}")
     compile('com.datastax.cassandra:cassandra-driver-core:2.1.9')
 
     compile 'org.javamoney:moneta:1.0'
