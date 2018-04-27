@@ -4,7 +4,9 @@ import com.medishare.cayman.Application;
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.config.WebConfig;
 import com.medishare.cayman.constant.OAuth2UriConstant;
+import com.medishare.cayman.domain.Member;
 import com.medishare.cayman.service.ArticleService;
+import com.medishare.cayman.service.MemberService;
 import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.utils.MessageUtil;
 import com.medishare.cayman.utils.SignUtil;
@@ -47,6 +49,9 @@ public class WechatController{
 	
 	@Autowired
 	MsgDispatcher msgDispatcher;
+
+	@Autowired
+	MemberService memberService;
 
 	/**
 	 * 配置微信后台
@@ -113,12 +118,9 @@ public class WechatController{
 	 */
 	@RequestMapping(value = "/oauth2", method = RequestMethod.GET)
 	public ModelAndView wechatOauth2(HttpServletResponse response, HttpServletRequest request,@RequestParam("code")String code,@RequestParam("state")String state) throws IOException {
-		System.out.println("system进入了方法oauth2");
-		System.out.println("system进入了方法oauth2");
-		System.out.println("system进入了方法oauth2");
-		log.info("log进入了方法oauth2");
-		log.info("log进入了方法oauth2");
-		log.info("log进入了方法oauth2");
+		log.info("===================log进入了方法oauth2===================");
+		log.info("===================log进入了方法oauth2===================");
+		log.info("===================log进入了方法oauth2===================");
 		Wechat wechat = WechatFactory.getInstance();
 		// 获取Code&换取Access Token
 		ResponseOAuth2AccessToken accessToken = wechat.getOAuth2AccessToken(code);
@@ -129,48 +131,21 @@ public class WechatController{
 		}
 		log.info("oath2 status:"+state);
 		if(accessToken!=null){
-			accessToken.getOpenId();
-			accessToken.getUnionId();
-
+			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
+			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
+			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
 
 			Cookie cookie = new Cookie("OPENID", accessToken.getOpenId());
 			cookie.setPath("/");
 			response.addCookie(cookie);
-
-
-//			ResponseUser user = wechat.getUserInfo(accessToken.getOpenId(), "zh_CN ");
-
-
-//			if(user == null || user.getUser() == null || user.getUser().getHeadImgURL() == null){
-//				log.info(JSonUtils.toJsonString(user));
-//				user= wechat.getOAuth2UserInfo(accessToken.getAccessToken(), accessToken.getOpenId(), "zh_CN ");
-//			}
-//
-//			String headImgUrl = user.getUser().getHeadImgURL();
-//
-			
-//			Patient patient = patientService.findPatientByOpenId(accessToken.getOpenId());
-//			if(patient==null){
-			System.out.println(webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
-			log.info(webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
-
-			return new ModelAndView("redirect:"+webConfig.getWebHttp()+"?redirect_uri="+URLEncoder.encode(state, "utf-8"));
-//			}else{
-//				if(accessToken!=null){
-					//免密码登录
-//					if(memberLoginDAO.flushAuth()==null){
-//						memberLoginDAO.patientLogin(request, patient.getUsername(), "");
-//						memberLoginDAO.flushAuth();
-//					}
-//				}
-//			}
-//			Cookie session = new Cookie("SESSION", request.getSession().getId());
-//			session.setPath("/");
-//			response.addCookie(session);
-			
+			Member member = memberService.getMemberInfoByOpenId(accessToken.getOpenId());
+			if(member != null){
+				return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
+			}
+			return new ModelAndView("redirect:"+webConfig.getWebHttp()+state);
 		}
 		log.info(JSonUtils.toJsonString(request.getCookies()));
-		return new ModelAndView("redirect:"+webConfig.getWebHttp()+state);
+		return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
 	}
 	
 	/**
@@ -270,27 +245,23 @@ public class WechatController{
 	@ResponseBody
 	@RequestMapping(value = "/wechat/redirect/oauth2/", method = RequestMethod.GET)
 	public ModelAndView getOauth2Url(@RequestParam(value="url",required=false) String url ,HttpServletRequest request,HttpServletResponse response){
-		System.out.println("system into /wechat/redirect/oauth2/");
-		System.out.println("system into /wechat/redirect/oauth2/");
-		System.out.println("system into /wechat/redirect/oauth2/");
-		log.info("log into /wechat/redirect/oauth2/");
-		log.info("log into /wechat/redirect/oauth2/");
-		log.info("log into /wechat/redirect/oauth2/");
-
-
 		Wechat wechat = WechatFactory.getInstance();
-		if(url==null || url.trim().equals("")){
-			url =  webConfig.getWebHttp()+OAuth2UriConstant.BIND;
-		}
 		String oauth2URL = "";
+//		if(url==null || url.trim().equals("")){
+//			url =  webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO;
+//		}
 		try {
 			oauth2URL = wechat.generateOAuth2URL(webConfig.getWebHttp()+"/oauth2", "snsapi_base", URLEncoder.encode(url.replace(webConfig.getWebHttp(), ""),"utf-8"));
-			log.info(oauth2URL);
-			log.info(oauth2URL);
-			log.info(oauth2URL);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		log.info("========into getOauth2Url=======");
+		log.info("========into getOauth2Url=======");
+		log.info("========into getOauth2Url=======");
+		log.info(oauth2URL);
+		log.info("========into getOauth2Url=======");
+		log.info("========into getOauth2Url=======");
+		log.info("========into getOauth2Url=======");
 		return new ModelAndView("redirect:"+oauth2URL);
 	}
 	/**

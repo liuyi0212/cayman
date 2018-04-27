@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public JSONRet getMemberInfoByOpenId(String openId) {
-        return null;
+    public Member getMemberInfoByOpenId(String openId) {
+        return memberDAO.searchMember(openId);
     }
 }

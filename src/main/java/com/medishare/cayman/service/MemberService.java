@@ -20,6 +20,6 @@ public interface MemberService {
      * @param openId
      * @return
      */
-    JSONRet getMemberInfoByOpenId(String openId);
+    Member getMemberInfoByOpenId(String openId);
 
 }
