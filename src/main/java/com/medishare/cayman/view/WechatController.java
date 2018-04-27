@@ -1,5 +1,6 @@
 package com.medishare.cayman.view;
 
+import com.medishare.cayman.Application;
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.config.WebConfig;
 import com.medishare.cayman.constant.OAuth2UriConstant;
@@ -15,6 +16,8 @@ import com.medishare.cayman.wechat.conf.ConfigurationContext;
 import com.medishare.cayman.wechat.entity.Response;
 import com.medishare.cayman.wechat.entity.ResponseMedia;
 import com.medishare.cayman.wechat.entity.ResponseOAuth2AccessToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class WechatController extends BaseController{
+public class WechatController{
+
+	static Logger log = LoggerFactory.getLogger(WechatController.class);
+
 
 	@Autowired
 	WebConfig webConfig;
@@ -204,7 +210,7 @@ public class WechatController extends BaseController{
 //			map.put("offset","0");
 //			map.put("count","20");
 //
-//			Wechat wechat = WechatFactory.getInstance();
+//			Wechat wechat = WechatFactory.getInstance();^&
 //			System.out.println(JSonUtils.toJsonString(map));
 //            com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
 //
@@ -224,6 +230,8 @@ public class WechatController extends BaseController{
 			map02.put("thumb_url","http://mmbiz.qpic.cn/mmbiz_jpg/EIvvvz1ymI6mia3BDJc4w1JKx4iahBAsmgTLtb1zIQCguRicU5hHZ2vhtFyHIQWaRPFu5YL7R3sZ4A7a20mQtbqfQ/0?wx_fmt=jpeg");
 			map02.put("title","测试数据title02");
 			map02.put("url","http://mp.weixin.qq.com/s?__biz=MzI5NzM4MTY2MA==&mid=100000011&idx=4&sn=782860b715d9eac9a5efd5aef733b35d&chksm=6cb4bb785bc3326e63b94a3e48f9d94b8b3593c1d60c6cf96652b523ba736179c58fe9c34cc1#rd");
+			list.add(map01);
+			list.add(map02);
 			ret.setData(list);
 
 

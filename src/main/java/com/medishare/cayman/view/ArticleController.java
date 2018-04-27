@@ -4,6 +4,8 @@ import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.domain.ArticleDQ;
 import com.medishare.cayman.service.ArticleService;
 import com.medishare.cayman.utils.JSonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.*;
  * Created by liuy on 2018/3/30.
  */
 @Controller
-public class ArticleController extends BaseController{
+public class ArticleController {
+
+    static Logger log = LoggerFactory.getLogger(ArticleController.class);
+
 
     @Autowired
     ArticleService articleService;
@@ -25,6 +30,12 @@ public class ArticleController extends BaseController{
     @ResponseBody
     @RequestMapping(value = "/search/article/", method = RequestMethod.GET)
     public String searchArticle(@RequestParam(value = "page", defaultValue = "0")int page){
+        log.info("SHUCHU");
+        log.info("SHUCHU");
+        log.info("SHUCHU");
+        System.out.println("============");
+        System.out.println("============");
+        System.out.println("============");
         JSONRet ret= articleService.searchArticle(page);
         return JSonUtils.toJsonString(ret);
     }
