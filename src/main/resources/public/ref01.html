@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<a href="http://120.26.116.47:8087/referral/excel_download/">下载数据</a>
+<div class="alert"></div>
+<ul class="list">
+
+</ul>
+<input type="button" id="btn" value="请求数据">
+<input type="button" id="clear" value="清除数据">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script>
+  $(function(){
+//    $("#download").click(function () {
+//      $.ajax({
+//        type: "get",
+//        dataType: "json",
+//        url: "http://120.26.116.47:8087/referral/excel_download/"
+//      })
+//    })
+
+//    $("#btn").click(function(){
+    $(document).ready(function(){
+      $.ajax({
+        type:"get",
+        dataType:"json",
+        contentType: "application/json; charset=utf-8",
+        url:"http://120.26.116.47:8087/search/referral/list/",
+//						data:{},
+        success:function(res){
+//          $(".alert").html("请求成功")
+
+
+          var html='';
+          //第一次方式
+//							$.each(res,function(i,v){
+//								html+="<li data-id="+v.data[i].name+">"+v.data[i].name+"</li>"
+//							})
+          //第二次方式
+          html+="<table class='table' border=\"1\" cellspacing=\"0\" cellpadding=\"0\">\n" +
+            "\n" +
+            "  <tr>\n" +
+            "\n" +
+            "    　　<td align=\"left\">接受者姓名</td>\n" +
+            "    　　<td align=\"left\">his生成的预约单号</td>\n" +
+            "    　　<td align=\"left\">医生科室</td>\n" +
+            "    　　<td align=\"left\">医院名称</td>\n" +
+            "    　　<td align=\"left\">患者姓名</td>\n" +
+            "    　　<td align=\"left\">患者年龄</td>\n" +
+            "    　　<td align=\"left\">患者身份证号</td>\n" +
+            "    　　<td align=\"left\">患者手机号</td>\n" +
+            "    　　<td align=\"left\">患者是否签约</td>\n" +
+            "    　　<td align=\"left\">预约日期</td>\n" +
+            "    　　<td align=\"left\">预约时间</td>\n" +
+            "    　　<td align=\"left\">患者性别</td>\n" +
+            "    　　<td align=\"left\">预约状态</td>\n" +
+            "    　　<td align=\"left\">患者病例图片链接</td>\n" +
+            "    　　<td align=\"left\">语音说明链接</td>\n" +
+            "\n" +
+            "\n" +
+            "  </tr>"
+          for(var i=0;i<res.data.length;i++){
+            html+="<tr>"
+            html+="<td>"+(res.data[i].reservationNumber==undefined?"":res.data[i].reservationNumber)+"</td>"
+            html+="<td>"+(res.data[i].recipientName==undefined?"":res.data[i].recipientName)+"</td>"
+            html+="<td>"+(res.data[i].departmentName==undefined?"":res.data[i].departmentName)+"</td>"
+            html+="<td>"+(res.data[i].hospitalName==undefined?"":res.data[i].hospitalName)+"</td>"
+            html+="<td>"+(res.data[i].name==undefined?"":res.data[i].name)+"</td>"
+            html+="<td>"+(res.data[i].age==undefined?"":res.data[i].age)+"</td>"
+            html+="<td>"+(res.data[i].idCard==undefined?"":res.data[i].idCard)+"</td>"
+            html+="<td>"+(res.data[i].phone==undefined?"":res.data[i].phone)+"</td>"
+            html+="<td>"+(res.data[i].isSign==undefined?"":res.data[i].isSign)+"</td>"
+            html+="<td>"+(res.data[i].reservationDayPartName==undefined?"":res.data[i].reservationDayPartName)+"</td>"
+            html+="<td>"+(res.data[i].reservationTime==undefined?"":res.data[i].reservationTime)+"</td>"
+            html+="<td>"+(res.data[i].sex==undefined?"":res.data[i].sex)+"</td>"
+            html+="<td>"+(res.data[i].statusName==undefined?"":res.data[i].statusName)+"</td>"
+            html+="<td>"+(res.data[i].photos==undefined?"":res.data[i].photos)+"</td>"
+            html+="<td>"+(res.data[i].voices==undefined?"":res.data[i].voices)+"</td>"
+            html+="</tr>"
+          }
+
+          html+="</table>"
+          $(".list").html(html)
+
+        },
+        error:function(){
+          $(".alert").html("请求失败")
+        }
+      })
+    })
+    $("#clear").click(function(){
+      $(".list").html("")
+      $(".alert").html("")
+    })
+
+  })
+</script>
+<style>
+.table {
+    background-color: #fff;
+    text-align: center;
+}
+.table tr:first-child {
+    word-break: keep-all;
+    text-align: center;
+}
+
+.table tr,
+.table td{
+    text-align: center;
+    padding: 5px 10px;
+}
+.list {
+    padding: 0;
+}
+</style>
+
+
+</body>
+</html>
