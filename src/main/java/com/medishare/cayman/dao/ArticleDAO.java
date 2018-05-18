@@ -63,6 +63,6 @@ public interface ArticleDAO {
     @Update({"<script>", "update daqiao_article ea set ea.read = ea.read+1 where ea.id = ${id}", "</script>"})
     int articleRead(@Param("id") String id);
 
-    @Update({"<script>", "update daqiao_article ea set ea.click = '1' where ea.id = ${id}", "</script>"})
+    @Update({"<script>", "update daqiao_article ea set ea.click = ea.click+1 where ea.id = ${id}", "</script>"})
     int articleClick(@Param("id") String id);
 }
