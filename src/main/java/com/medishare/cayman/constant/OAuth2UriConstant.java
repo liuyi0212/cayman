@@ -6,7 +6,7 @@ public interface OAuth2UriConstant {
 	 */
 	String BIND = "/matrix/user.html#/patient/login";
 
-	String BASICINFO = "/basic-info";
+	String BASICINFO = "/sugar/#/basic-info";
 
-	String ANSWER = "/answer";
+	String ANSWER = "/sugar/#/answer";
 }
