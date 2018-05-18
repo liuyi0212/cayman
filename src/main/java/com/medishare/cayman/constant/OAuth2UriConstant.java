@@ -9,4 +9,6 @@ public interface OAuth2UriConstant {
 	String BASICINFO = "/sugar/#/basic-info";
 
 	String ANSWER = "/sugar/#/answer";
+
+	String PATH = "/sugar/#";
 }

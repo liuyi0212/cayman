@@ -139,10 +139,10 @@ public class WechatController{
 			cookie.setPath("/");
 			response.addCookie(cookie);
 			Member member = memberService.getMemberInfoByOpenId(accessToken.getOpenId());
-			if(member != null){
+			if(member == null){
 				return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
 			}
-			return new ModelAndView("redirect:"+webConfig.getWebHttp()+state);
+			return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.PATH+state);
 		}
 		log.info(JSonUtils.toJsonString(request.getCookies()));
 		return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
