@@ -138,6 +138,9 @@ public class WechatController{
 			Cookie cookie = new Cookie("OPENID", accessToken.getOpenId());
 			cookie.setPath("/");
 			response.addCookie(cookie);
+			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
+			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
+			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
 			Member member = memberService.getMemberInfoByOpenId(accessToken.getOpenId());
 			if(member == null){
 				return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
