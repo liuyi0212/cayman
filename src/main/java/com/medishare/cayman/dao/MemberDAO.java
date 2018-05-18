@@ -15,7 +15,7 @@ import java.util.List;
 public interface MemberDAO {
 
     @Select({"<script>",
-            "select dqm.* from daqiao_member dqm where dqm.openId = #{openId}", "</script>"})
+            "select dqm.* from daqiao_member dqm where dqm.openid = #{openId}", "</script>"})
     Member searchMember(@Param("openId") String openId);
 
 
