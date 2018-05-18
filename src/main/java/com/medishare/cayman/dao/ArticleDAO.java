@@ -21,7 +21,7 @@ public interface ArticleDAO {
             @Result(column = "like", property = "like", javaType = Integer.class),
             @Result(column = "share", property = "share", javaType = Integer.class),
             @Result(column = "click", property = "click", javaType = Integer.class),
-            @Result(column = "read", property = "read", javaType = String.class),
+            @Result(column = "read", property = "read", javaType = Integer.class),
     })
     @Select({"<script>",
             "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read from daqiao_article dqa where 1=1"
