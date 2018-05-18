@@ -144,7 +144,9 @@ public class WechatController{
 			}
 			return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.PATH+state);
 		}
-		log.info(JSonUtils.toJsonString(request.getCookies()));
+		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
+		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
+		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
 		return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
 	}
 	
