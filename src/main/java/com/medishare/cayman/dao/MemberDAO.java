@@ -19,8 +19,8 @@ public interface MemberDAO {
     Member searchMember(@Param("openId") String openId);
 
 
-    @Insert(value = {"INSERT INTO daqiao_member (realname,gender,birthday,openid,unionid)"
-            + " VALUES(#{realname},#{gender},#{birthday},#{openid},#{unionid})"})
+    @Insert(value = {"INSERT INTO daqiao_member (realname,gender,birthday,openid,unionid,diabetes,hypertension,district)"
+            + " VALUES(#{realname},#{gender},#{birthday},#{openid},#{unionid},#{diabetes},#{hypertension},#{district})"})
     @SelectKey(statement = "select LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = String.class)
     int insertMemberInfo(Member member);
 

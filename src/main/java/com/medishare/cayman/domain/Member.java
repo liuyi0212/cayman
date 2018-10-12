@@ -21,6 +21,10 @@ public class Member implements Serializable{
     private String nickname;
     private String openid;
     private String unionid;
+    private String diabetes;
+    private String hypertension;
+    private String district;
+
 
     public String getId() {
         return id;
@@ -100,5 +104,29 @@ public class Member implements Serializable{
 
     public void setUnionid(String unionid) {
         this.unionid = unionid;
+    }
+
+    public String getDiabetes() {
+        return diabetes;
+    }
+
+    public void setDiabetes(String diabetes) {
+        this.diabetes = diabetes;
+    }
+
+    public String getHypertension() {
+        return hypertension;
+    }
+
+    public void setHypertension(String hypertension) {
+        this.hypertension = hypertension;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 }
