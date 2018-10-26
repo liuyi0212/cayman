@@ -589,7 +589,6 @@ final class WechatImpl implements Wechat, Serializable {
         paramMap.put("offset","0");
         paramMap.put("count","22");
         Object data= JSON.toJSON(paramMap);
-
         System.out.println(JSonUtils.toJsonString(data));
         com.alibaba.fastjson.JSONObject jsonObject = null;
         try {
