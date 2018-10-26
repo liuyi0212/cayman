@@ -185,40 +185,27 @@ public class WechatController{
 		List<Map<String, Object>> list = new ArrayList<>();
 
 		try {
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("type","news");
-//			map.put("offset","0");
-//			map.put("count","20");
-//
-//			Wechat wechat = WechatFactory.getInstance();^&
-//			System.out.println(JSonUtils.toJsonString(map));
-//            com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
-//
-//            List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
-//            lista.forEach(l->{
-//                Map<String, Object> m2 = (Map<String, Object>) l.get("content");
-//                List<Map<String, Object>> l2 = (List<Map<String, Object>>) m2.get("news_item");
-//                System.out.println(JSonUtils.toJsonString(l2));
-//            });
-//			ret.setData(lista);
-			Map<String, Object> map01 = new HashMap<>();
-			map01.put("thumb_url","http://mmbiz.qpic.cn/mmbiz_jpg/EIvvvz1ymI6mia3BDJc4w1JKx4iahBAsmgTLtb1zIQCguRicU5hHZ2vhtFyHIQWaRPFu5YL7R3sZ4A7a20mQtbqfQ/0?wx_fmt=jpeg");
-			map01.put("title","测试数据title01");
-			map01.put("url","http://mp.weixin.qq.com/s?__biz=MzI5NzM4MTY2MA==&mid=100000011&idx=4&sn=782860b715d9eac9a5efd5aef733b35d&chksm=6cb4bb785bc3326e63b94a3e48f9d94b8b3593c1d60c6cf96652b523ba736179c58fe9c34cc1#rd");
+			Map<String, Object> map = new HashMap<>();
+			map.put("type","news");
+			map.put("offset","0");
+			map.put("count","20");
 
-			Map<String, Object> map02 = new HashMap<>();
-			map02.put("thumb_url","http://mmbiz.qpic.cn/mmbiz_jpg/EIvvvz1ymI6mia3BDJc4w1JKx4iahBAsmgTLtb1zIQCguRicU5hHZ2vhtFyHIQWaRPFu5YL7R3sZ4A7a20mQtbqfQ/0?wx_fmt=jpeg");
-			map02.put("title","测试数据title02");
-			map02.put("url","http://mp.weixin.qq.com/s?__biz=MzI5NzM4MTY2MA==&mid=100000011&idx=4&sn=782860b715d9eac9a5efd5aef733b35d&chksm=6cb4bb785bc3326e63b94a3e48f9d94b8b3593c1d60c6cf96652b523ba736179c58fe9c34cc1#rd");
-			list.add(map01);
-			list.add(map02);
-			ret.setData(list);
+			Wechat wechat = WechatFactory.getInstance();
+			System.out.println(JSonUtils.toJsonString(map));
+			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
 
+			List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
+			lista.forEach(l->{
+				Map<String, Object> m2 = (Map<String, Object>) l.get("content");
+				List<Map<String, Object>> l2 = (List<Map<String, Object>>) m2.get("news_item");
+				System.out.println(JSonUtils.toJsonString(l2));
+			});
 
+			ret.setData(lista);
 		} catch (Exception e) {
 			log.error("error",e);
 			return "error";
-		}		
+		}
 		return JSonUtils.toJsonString(ret);
 	}
 	
