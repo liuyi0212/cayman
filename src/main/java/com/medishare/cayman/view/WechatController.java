@@ -193,6 +193,8 @@ public class WechatController{
 			Wechat wechat = WechatFactory.getInstance();
 			System.out.println(JSonUtils.toJsonString(map));
 			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
+			System.out.println("返回结果");
+			System.out.println(JSonUtils.toJsonString(jsonObject));
 
 			List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
 			lista.forEach(l->{
