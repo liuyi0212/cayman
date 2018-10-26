@@ -191,6 +191,10 @@ public class WechatController{
 			map.put("count","20");
 
 			Wechat wechat = WechatFactory.getInstance();
+			System.out.println("======wechat======wechat");
+			System.out.println("======wechat======wechat");
+			System.out.println("======wechat======wechat");
+			System.out.println(JSonUtils.toJsonString(wechat));
 			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
 			System.out.println("======jsonObject======jsonObject");
 			System.out.println(JSonUtils.toJsonString(jsonObject));
