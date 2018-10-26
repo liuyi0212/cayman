@@ -178,24 +178,22 @@ public class WechatController{
 	 * @return
 	 * @throws IOException
 	 */
-//	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.GET)
-//	public String getBatchgetMaterial(HttpServletResponse response, HttpServletRequest request) throws IOException {
-////	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
-//		JSONRet ret = new JSONRet();
-//		List<Map<String, Object>> list = new ArrayList<>();
-//
-//		try {
-//			Map<String, Object> map = new HashMap<>();
-//			map.put("type","news");
-//			map.put("offset","0");
-//			map.put("count","20");
-//
-//			Wechat wechat = WechatFactory.getInstance();
-//			System.out.println(JSonUtils.toJsonString(map));
-//			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
-//			System.out.println("返回结果");
-//			System.out.println(JSonUtils.toJsonString(jsonObject));
-//
+	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.GET)
+	public String getBatchgetMaterial(HttpServletResponse response, HttpServletRequest request) throws IOException {
+//	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
+		JSONRet ret = new JSONRet();
+		List<Map<String, Object>> list = new ArrayList<>();
+
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("type","news");
+			map.put("offset","0");
+			map.put("count","20");
+
+			Wechat wechat = WechatFactory.getInstance();
+			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
+			System.out.println("======jsonObject======jsonObject");
+			System.out.println(JSonUtils.toJsonString(jsonObject));
 //			List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
 //			lista.forEach(l->{
 //				Map<String, Object> m2 = (Map<String, Object>) l.get("content");
@@ -204,28 +202,6 @@ public class WechatController{
 //			});
 //
 //			ret.setData(lista);
-//		} catch (Exception e) {
-//			log.error("error",e);
-//			return "error";
-//		}
-//		return JSonUtils.toJsonString(ret);
-//	}
-
-	/**
-	 * 获取永久素材
-	 * @param response
-	 * @param request
-	 * @return
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/wechat/batchget/material/", method = RequestMethod.POST)
-	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
-		JSONRet ret = new JSONRet();
-		try {
-			Wechat wechat = WechatFactory.getInstance();
-			System.out.println(JSonUtils.toJsonString(material));
-			ResponseMedia resp = wechat.batchgetMaterial(material);
-			System.out.println(resp.getMedia());
 		} catch (Exception e) {
 			log.error("error",e);
 			return "error";
