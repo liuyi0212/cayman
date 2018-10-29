@@ -180,13 +180,13 @@ public class WechatController{
 			map.put("count","20");
 
 			Wechat wechat = WechatFactory.getInstance();
-			System.out.println("======wechat======wechat");
-			System.out.println("======wechat======wechat");
-			System.out.println("======wechat======wechat");
-			System.out.println(JSonUtils.toJsonString(wechat));
+//			System.out.println("======wechat======wechat");
+//			System.out.println("======wechat======wechat");
+//			System.out.println("======wechat======wechat");
+//			System.out.println(JSonUtils.toJsonString(wechat));
 			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
-			System.out.println("======jsonObject======jsonObject");
-			System.out.println(JSonUtils.toJsonString(jsonObject));
+//			System.out.println("======jsonObject======jsonObject");
+//			System.out.println(JSonUtils.toJsonString(jsonObject));
 //			List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
 //			lista.forEach(l->{
 //				Map<String, Object> m2 = (Map<String, Object>) l.get("content");
@@ -194,7 +194,7 @@ public class WechatController{
 //				System.out.println(JSonUtils.toJsonString(l2));
 //			});
 //
-//			ret.setData(lista);
+			ret.setData(jsonObject);
 		} catch (Exception e) {
 			log.error("error",e);
 			return "error";
