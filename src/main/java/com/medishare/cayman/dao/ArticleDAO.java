@@ -24,7 +24,7 @@ public interface ArticleDAO {
             @Result(column = "tag", property = "tag", javaType = String.class),
     })
     @Select({"<script>",
-            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read,dqa.tag from daqiao_article dqa where 1=1 "
+            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read,dqa.tag from daqiao_article dqa where dqa.doctorsee = '0' "
                     + " <if test=\"condition != null and condition != '' \"> and dqa.body like CONCAT('%',#{condition},'%') or dqa.tag like CONCAT('%',#{condition},'%') </if>"
                     + " <if test=\"creater != null and creater != '' \"> and dqa.creater = #{creater} </if>"
                     + " order by dqa.id desc"
