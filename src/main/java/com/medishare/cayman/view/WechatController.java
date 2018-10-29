@@ -1,11 +1,9 @@
 package com.medishare.cayman.view;
 
-import com.medishare.cayman.Application;
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.config.WebConfig;
 import com.medishare.cayman.constant.OAuth2UriConstant;
 import com.medishare.cayman.domain.Member;
-import com.medishare.cayman.service.ArticleService;
 import com.medishare.cayman.service.MemberService;
 import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.utils.MessageUtil;
@@ -16,7 +14,6 @@ import com.medishare.cayman.wechat.client.WechatFactory;
 import com.medishare.cayman.wechat.client.WechatStatic;
 import com.medishare.cayman.wechat.conf.ConfigurationContext;
 import com.medishare.cayman.wechat.entity.Response;
-import com.medishare.cayman.wechat.entity.ResponseMedia;
 import com.medishare.cayman.wechat.entity.ResponseOAuth2AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +40,10 @@ public class WechatController{
 
 	@Autowired
 	WebConfig webConfig;
-	
+
 //	@Autowired
 //	EventDispatcher eventDispatcher;
-	
+
 	@Autowired
 	MsgDispatcher msgDispatcher;
 
@@ -64,10 +61,10 @@ public class WechatController{
 	 */
 	@RequestMapping(value = "/wechat/", method = RequestMethod.GET)
 	public void index(@RequestParam("signature")String signature,
-			@RequestParam("timestamp")String timestamp,
-			@RequestParam("nonce")String nonce,
-			@RequestParam("echostr")String echostr,
-			HttpServletRequest request,HttpServletResponse response){
+					  @RequestParam("timestamp")String timestamp,
+					  @RequestParam("nonce")String nonce,
+					  @RequestParam("echostr")String echostr,
+					  HttpServletRequest request,HttpServletResponse response){
 		log.info("微信配置验证");
 		try {
 			if (SignUtil.checkSignature(signature, timestamp, nonce)) {
@@ -119,8 +116,6 @@ public class WechatController{
 	@RequestMapping(value = "/oauth2", method = RequestMethod.GET)
 	public ModelAndView wechatOauth2(HttpServletResponse response, HttpServletRequest request,@RequestParam("code")String code,@RequestParam("state")String state) throws IOException {
 		log.info("===================log进入了方法oauth2===================");
-		log.info("===================log进入了方法oauth2===================");
-		log.info("===================log进入了方法oauth2===================");
 		Wechat wechat = WechatFactory.getInstance();
 		// 获取Code&换取Access Token
 		ResponseOAuth2AccessToken accessToken = wechat.getOAuth2AccessToken(code);
@@ -132,14 +127,10 @@ public class WechatController{
 		log.info("oath2 status:"+state);
 		if(accessToken!=null){
 			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
-			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
-			log.info("===================accessToken.getOpenId()==================="+accessToken.getOpenId());
 
 			Cookie cookie = new Cookie("OPENID", accessToken.getOpenId());
 			cookie.setPath("/");
 			response.addCookie(cookie);
-			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
-			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
 			log.info(JSonUtils.toJsonString("===================accessToken.getCookiesA()==================="+request.getCookies()));
 			Member member = memberService.getMemberInfoByOpenId(accessToken.getOpenId());
 			if(member == null){
@@ -148,11 +139,9 @@ public class WechatController{
 			return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.PATH+state);
 		}
 		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
-		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
-		log.info(JSonUtils.toJsonString("===================accessToken.getCookies()==================="+request.getCookies()));
 		return new ModelAndView("redirect:"+webConfig.getWebHttp()+OAuth2UriConstant.BASICINFO);
 	}
-	
+
 	/**
 	 * 获取当前accesstoken
 	 * @param response
@@ -170,7 +159,7 @@ public class WechatController{
 		ret.setCode(0);
 		return JSonUtils.toJsonString(ret);
 	}
-	
+
 	/**
 	 * 获取永久素材
 	 * @param response
@@ -212,9 +201,9 @@ public class WechatController{
 		}
 		return JSonUtils.toJsonString(ret);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * js api
 	 * @param url
@@ -231,8 +220,8 @@ public class WechatController{
 		ret.setCode(0);
 		return JSonUtils.toJsonString(ret);
 	}
-	
-	
+
+
 	/**
 	 * 获取
 	 * @param request
@@ -283,5 +272,6 @@ public class WechatController{
 	}
 
 
-	
+
 }
+

@@ -58,6 +58,26 @@ public class ArticleDQ implements Serializable {
 
     private String replycontent;
 
+    private String tag;
+
+    /**
+     * 做页面转换
+     */
+    private List<String> tags;
+
+    /**
+     * 是否可见
+     */
+    private byte doctorsee;
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     public String getAnswerportrait() {
         return answerportrait;
     }
@@ -200,5 +220,21 @@ public class ArticleDQ implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public byte getDoctorsee() {
+        return doctorsee;
+    }
+
+    public void setDoctorsee(byte doctorsee) {
+        this.doctorsee = doctorsee;
     }
 }

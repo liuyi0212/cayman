@@ -30,12 +30,17 @@ public class ArticleServiceImpl implements ArticleService{
     ArticleDAO articleDAO;
 
     @Override
-    public JSONRet searchArticle(int page) {
+    public JSONRet searchArticle(String condition, String creater, int page) {
         JSONRet ret = new JSONRet();
         Pager pager = new Pager();
-        Map<String, Object> map = new HashMap<>();
         int pageStart = page <= 1 ? 0 : ((page - 1) * 11);
-        List<ArticleDQ> list = articleDAO.searchArticle(pageStart, 111);
+        List<ArticleDQ> list = articleDAO.searchArticle(condition, creater, pageStart, 111);
+        list.forEach(l->{
+            if(!StringUtils.isEmpty(l.getTag())){
+                l.setTags(Arrays.asList(l.getTag().split(",")));
+                l.setTag(null);
+            }
+        });
         ret.setData(list);
         pager.setHasNextPage(list);
         ret.setPager(pager);
@@ -50,6 +55,11 @@ public class ArticleServiceImpl implements ArticleService{
             articleDQ.setPicture(null);
             articleDQ.setPictureset(l);
         }
+        if(!StringUtils.isEmpty(articleDQ.getTag())){
+            articleDQ.setTags(Arrays.asList(articleDQ.getTag().split(",")));
+            articleDQ.setTag(null);
+        }
+
         return articleDQ;
     }
 

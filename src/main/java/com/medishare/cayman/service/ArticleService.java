@@ -13,7 +13,7 @@ public interface ArticleService {
      * 查询文章
      * @return
      */
-    JSONRet searchArticle(int page);
+    JSONRet searchArticle(String condition, String creater, int page);
 
     ArticleDQ getArticleDQById(String id);
 

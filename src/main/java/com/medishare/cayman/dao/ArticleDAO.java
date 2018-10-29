@@ -1,7 +1,6 @@
 package com.medishare.cayman.dao;
 
 import com.medishare.cayman.domain.ArticleDQ;
-import com.medishare.cayman.message.resp.Article;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +21,15 @@ public interface ArticleDAO {
             @Result(column = "share", property = "share", javaType = Integer.class),
             @Result(column = "click", property = "click", javaType = Integer.class),
             @Result(column = "read", property = "read", javaType = String.class),
+            @Result(column = "tag", property = "tag", javaType = String.class),
     })
     @Select({"<script>",
-            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read from daqiao_article dqa where 1=1"
-                    + " order by dqa.id desc limit #{start}, #{limit};", "</script>"})
-    List<ArticleDQ> searchArticle(@Param("start") int start, @Param("limit") int limit);
+            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read,dqa.tag from daqiao_article dqa where 1=1 "
+                    + " <if test=\"condition != null and condition != '' \"> and dqa.body like CONCAT('%',#{condition},'%') or dqa.tag like CONCAT('%',#{condition},'%') </if>"
+                    + " <if test=\"creater != null and creater != '' \"> and dqa.creater = #{creater} </if>"
+                    + " order by dqa.id desc"
+                    + " limit #{start}, #{limit};", "</script>"})
+    List<ArticleDQ> searchArticle(@Param("condition") String condition, @Param("creater") String creater, @Param("start") int start, @Param("limit") int limit);
 
     @Results(value = {@Result(column = "id", property = "id", javaType = String.class),
             @Result(column = "title", property = "title", javaType = String.class),
@@ -37,14 +40,15 @@ public interface ArticleDAO {
             @Result(column = "replycontent", property = "replycontent", javaType = String.class),
             @Result(column = "answerer", property = "answerer", javaType = String.class),
             @Result(column = "answerportrait", property = "answerportrait", javaType = String.class),
+            @Result(column = "tag", property = "tag", javaType = String.class),
     })
     @Select({"<script>",
             "select dqa.* from daqiao_article dqa where dqa.id = ${id}", "</script>"})
     ArticleDQ getArticleBy(@Param("id") String id);
 
 
-    @Insert(value = {"INSERT INTO daqiao_article (title,body,creater,picture,anonymous)"
-            + " VALUES(#{title},#{body},#{creater},#{picture},#{anonymous})"})
+    @Insert(value = {"INSERT INTO daqiao_article (title,body,creater,picture,anonymous,tag,doctorsee)"
+            + " VALUES(#{title},#{body},#{creater},#{picture},#{anonymous},#{tag},#{doctorsee})"})
     @SelectKey(statement = "select LAST_INSERT_ID()", keyProperty = "id", before = false, resultType = String.class)
     int saveArticle(ArticleDQ articleDQ);
 

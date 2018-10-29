@@ -27,6 +27,7 @@ public class MemberController extends BaseController{
     @ResponseBody
     @RequestMapping(value = "/insert/member/info/", method = RequestMethod.POST)
     public String insertMemberInfo(HttpServletRequest request, @RequestBody Member member){
+        System.out.println("insertMember入参"+JSonUtils.toJsonString(member));
         Cookie[] cookies = request.getCookies();
         JSONRet ret = new JSONRet();
         if(null==cookies) {
