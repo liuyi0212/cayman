@@ -68,7 +68,7 @@ public class ArticleDQ implements Serializable {
     /**
      * 是否可见
      */
-    private byte doctorsee;
+    private Boolean doctorsee;
 
     public List<String> getTags() {
         return tags;
@@ -230,11 +230,11 @@ public class ArticleDQ implements Serializable {
         this.tag = tag;
     }
 
-    public byte getDoctorsee() {
+    public Boolean getDoctorsee() {
         return doctorsee;
     }
 
-    public void setDoctorsee(byte doctorsee) {
+    public void setDoctorsee(Boolean doctorsee) {
         this.doctorsee = doctorsee;
     }
 }
