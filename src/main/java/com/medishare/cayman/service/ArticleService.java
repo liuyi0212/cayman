@@ -4,9 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.domain.ArticleDQ;
 import com.mongodb.DBObject;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
