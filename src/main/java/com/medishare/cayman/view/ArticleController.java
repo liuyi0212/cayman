@@ -78,9 +78,20 @@ public class ArticleController {
      */
     @ResponseBody
     @RequestMapping(value = "/submit/article/", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    public String insertArticle(@RequestBody ArticleDQ article) {
+    public String insertArticle(HttpServletRequest request, @RequestBody ArticleDQ article) {
         JSONRet ret = new JSONRet();
-        articleService.saveArticle(article);
+        Cookie[] cookies = request.getCookies();
+        if(null==cookies) {
+            System.out.println("没有cookie==============");
+        }else{
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("OPENID")){
+                    article.setCreater(cookie.getValue());
+                    articleService.saveArticle(article);
+                }
+            }
+        }
+
         return JSonUtils.toJsonString(ret);
     }
 
