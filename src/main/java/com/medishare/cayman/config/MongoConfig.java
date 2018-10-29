@@ -32,7 +32,7 @@ public class MongoConfig {
 
 			// create the Datastore connecting to the default port on the local
 			// host
-			ds = morphia.createDatastore(new MongoClient(mongohost), "liuliang");
+			ds = morphia.createDatastore(new MongoClient(mongohost), "daqiao");
 			ds.ensureIndexes();
 		}
 		

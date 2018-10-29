@@ -11,6 +11,11 @@ import com.medishare.cayman.utils.HttpHelper;
 import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.wechat.conf.Configuration;
 import com.medishare.cayman.wechat.entity.AccessToken;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -28,6 +33,9 @@ public class ArticleServiceImpl implements ArticleService{
 
     @Autowired
     ArticleDAO articleDAO;
+
+    @Autowired
+    Datastore ds;
 
     @Override
     public JSONRet searchArticle(String condition, String creater, int page) {
@@ -92,5 +100,22 @@ public class ArticleServiceImpl implements ArticleService{
     public void articleClick(String id) {
         articleDAO.articleClick(id);
     }
+
+    @Override
+    public void saveWechatArticle(JSONObject jsonObject) {
+        ds.save(jsonObject);
+    }
+
+//    DBCursor cursor = collection.find(filter_dbobject).
+//            limit(10).sort(new BasicDBObject("create_time",-1));
+
+    @Override
+    public List<DBObject> findWechatArticle() {
+        DBCollection col = ds.getMongo().getDB("daqiao").getCollection("article");
+        DBCursor cursor = col.find().limit(1).sort(new BasicDBObject("_id",-1));
+        List<DBObject> list = cursor.toArray();
+        return list;
+    }
+
 
 }

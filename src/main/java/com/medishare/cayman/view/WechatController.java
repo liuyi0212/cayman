@@ -4,6 +4,7 @@ import com.medishare.cayman.common.JSONRet;
 import com.medishare.cayman.config.WebConfig;
 import com.medishare.cayman.constant.OAuth2UriConstant;
 import com.medishare.cayman.domain.Member;
+import com.medishare.cayman.service.ArticleService;
 import com.medishare.cayman.service.MemberService;
 import com.medishare.cayman.utils.JSonUtils;
 import com.medishare.cayman.utils.MessageUtil;
@@ -15,6 +16,7 @@ import com.medishare.cayman.wechat.client.WechatStatic;
 import com.medishare.cayman.wechat.conf.ConfigurationContext;
 import com.medishare.cayman.wechat.entity.Response;
 import com.medishare.cayman.wechat.entity.ResponseOAuth2AccessToken;
+import com.mongodb.DBObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,9 @@ public class WechatController{
 
 	@Autowired
 	MemberService memberService;
+
+	@Autowired
+	ArticleService articleService;
 
 	/**
 	 * 配置微信后台
@@ -171,20 +176,23 @@ public class WechatController{
 	public String getBatchgetMaterial(HttpServletResponse response, HttpServletRequest request) throws IOException {
 //	public String getBatchgetMaterial(@RequestBody Map material ,HttpServletResponse response, HttpServletRequest request) throws IOException {
 		JSONRet ret = new JSONRet();
-		List<Map<String, Object>> list = new ArrayList<>();
+		List<DBObject> list = articleService.findWechatArticle();
+		ret.setData(list);
+		return JSonUtils.toJsonString(ret);
+//		List<Map<String, Object>> list = new ArrayList<>();
+//
+//		try {
+//			Map<String, Object> map = new HashMap<>();
+//			map.put("type","news");
+//			map.put("offset","0");
+//			map.put("count","20");
 
-		try {
-			Map<String, Object> map = new HashMap<>();
-			map.put("type","news");
-			map.put("offset","0");
-			map.put("count","20");
-
-			Wechat wechat = WechatFactory.getInstance();
+//			Wechat wechat = WechatFactory.getInstance();
 //			System.out.println("======wechat======wechat");
 //			System.out.println("======wechat======wechat");
 //			System.out.println("======wechat======wechat");
 //			System.out.println(JSonUtils.toJsonString(wechat));
-			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
+//			com.alibaba.fastjson.JSONObject jsonObject = wechat.batchgetMaterialDoPost();
 //			System.out.println("======jsonObject======jsonObject");
 //			System.out.println(JSonUtils.toJsonString(jsonObject));
 //			List<Map<String, Object>> lista = (List<Map<String, Object>>) jsonObject.get("item");
@@ -194,12 +202,12 @@ public class WechatController{
 //				System.out.println(JSonUtils.toJsonString(l2));
 //			});
 //
-			ret.setData(jsonObject);
-		} catch (Exception e) {
-			log.error("error",e);
-			return "error";
-		}
-		return JSonUtils.toJsonString(ret);
+//			ret.setData(jsonObject);
+//		} catch (Exception e) {
+//			log.error("error",e);
+//			return "error";
+//		}
+//		return JSonUtils.toJsonString(ret);
 	}
 
 
