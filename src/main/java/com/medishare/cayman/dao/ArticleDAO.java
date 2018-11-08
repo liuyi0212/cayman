@@ -22,9 +22,10 @@ public interface ArticleDAO {
             @Result(column = "click", property = "click", javaType = Integer.class),
             @Result(column = "read", property = "read", javaType = String.class),
             @Result(column = "tag", property = "tag", javaType = String.class),
+            @Result(column = "replycontent", property = "replycontent", javaType = String.class),
     })
     @Select({"<script>",
-            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read,dqa.tag from daqiao_article dqa where 1=1 "
+            "select dqa.id,dqa.title,dqa.created,dqa.body,dqa.like,dqa.share,dqa.click,dqa.read,dqa.tag,dqa.replycontent from daqiao_article dqa where 1=1 "
                     + " <if test=\"condition != null and condition != '' \"> and dqa.body like CONCAT('%',#{condition},'%') or dqa.tag like CONCAT('%',#{condition},'%') or dqa.replycontent like CONCAT('%',#{condition},'%') </if>"
                     + " <if test=\"creater != null and creater != '' \"> and dqa.creater = #{creater} </if>"
                     + " <if test=\"creater == null and creater == '' \"> and dqa.doctorsee = '1' </if>"
